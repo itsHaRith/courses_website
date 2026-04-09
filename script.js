@@ -254,6 +254,11 @@ document.addEventListener("click", (e) => {
     if (modalOverlay && modalOverlay.classList.contains("active") && e.target === modalOverlay) {
         closeCourseModal();
     }
+        
+        const qrModalOverlay = document.getElementById("qr-modal-overlay");
+        if (qrModalOverlay && qrModalOverlay.classList.contains("active") && e.target === qrModalOverlay) {
+            closeQRModal();
+        }
 });
 
 const clearCartBtn = document.createElement("button");
@@ -464,53 +469,50 @@ function generateCheckoutQR() {
 }
 
 function showQRModal(qrUrl) {
-    let modal = document.getElementById("qr-modal");
-    if (!modal) {
-        modal = document.createElement("div");
-        modal.id = "qr-modal";
-        Object.assign(modal.style, {
-            position: "fixed", top: "0", left: "0", width: "100%", height: "100%",
-            backgroundColor: "rgba(0,0,0,0.8)", display: "flex", justifyContent: "center",
-            alignItems: "center", zIndex: "9999"
-        });
-
-        const content = document.createElement("div");
-        Object.assign(content.style, {
-            backgroundColor: "#1e293b", padding: "2rem", borderRadius: "12px",
-            textAlign: "center", boxShadow: "0 10px 25px rgba(0,0,0,0.5)", maxWidth: "90%"
-        });
-
-        const title = document.createElement("h3");
-        title.textContent = "تم إنشاء الطلب بنجاح";
-        title.style.marginBottom = "1rem";
-        title.style.color = "#f8fafc";
-
-        const qrImg = document.createElement("img");
-        qrImg.id = "qr-image";
-        qrImg.style.marginBottom = "1rem";
-        qrImg.style.borderRadius = "8px";
-
-        const closeBtn = document.createElement("button");
-        closeBtn.className = "btn";
-        closeBtn.textContent = "إغلاق";
-        closeBtn.onclick = () => {
-            modal.style.display = "none";
-            clearCart();
-            cartSidebar.classList.remove("active");
-        };
-
-        content.appendChild(title);
-        content.appendChild(qrImg);
-        content.appendChild(document.createElement("br"));
-        content.appendChild(closeBtn);
-        modal.appendChild(content);
-        document.body.appendChild(modal);
-        translateNode(modal, currentLang);
+    let modalOverlay = document.getElementById("qr-modal-overlay");
+    if (!modalOverlay) {
+        modalOverlay = document.createElement("div");
+        modalOverlay.id = "qr-modal-overlay";
+        modalOverlay.className = "course-modal-overlay";
+        document.body.appendChild(modalOverlay);
     }
 
-    document.getElementById("qr-image").src = qrUrl;
-    modal.style.display = "flex";
+    modalOverlay.innerHTML = `
+        <div class="custom-modal-content" id="active-qr-modal">
+            <div class="custom-modal-header">
+                <h3>تم إنشاء الطلب بنجاح</h3>
+                <button class="close-modal-btn" onclick="closeQRModal()">×</button>
+            </div>
+            <div class="custom-modal-body" style="text-align: center;">
+                <img id="qr-image" src="${qrUrl}" style="margin-bottom: 1.5rem; border-radius: 8px; max-width: 100%; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                <button class="btn" style="width: 100%;" onclick="closeQRModal()">إغلاق</button>
+            </div>
+        </div>
+    `;
+    translateNode(modalOverlay, currentLang);
+    modalOverlay.classList.add("active");
+    
+    if (typeof VanillaTilt !== 'undefined') {
+        VanillaTilt.init(document.querySelector("#active-qr-modal"), {
+            max: 5,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.1
+        });
+    }
 }
+
+window.closeQRModal = function() {
+    const modalOverlay = document.getElementById("qr-modal-overlay");
+    if (modalOverlay) {
+        modalOverlay.classList.remove("active");
+        clearCart();
+        cartSidebar.classList.remove("active");
+        setTimeout(() => {
+            modalOverlay.innerHTML = "";
+        }, 300);
+    }
+};
 
 renderCourses();
 updateCartUI();
@@ -559,6 +561,13 @@ document.querySelectorAll(".fade-in-section").forEach(section => {
     observer.observe(section);
 });
 
+const detailIcons = [
+    '<svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>',
+    '<svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>',
+    '<svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>',
+    '<svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>'
+];
+
 window.openCourseModal = function(courseKey) {
     let modalOverlay = document.getElementById("course-details-modal");
     if (!modalOverlay) {
@@ -574,9 +583,9 @@ window.openCourseModal = function(courseKey) {
         if (course) {
             data = {
                 title: course.title,
-                desc: `تفاصيل وشرح مسار ${course.tech}`,
+                    desc: `<span>تفاصيل وشرح مسار</span> <span dir="ltr" style="display: inline-block;">${course.tech}</span>`,
                 points: [
-                    `فهم أساسيات ${course.tech}`,
+                        `<span>فهم أساسيات</span> <span dir="ltr" style="display: inline-block;">${course.tech}</span>`,
                     "بناء مشاريع وتطبيقات عملية",
                     "تأهيل كامل لسوق العمل",
                     "الحصول على شهادة معتمدة"
@@ -587,17 +596,30 @@ window.openCourseModal = function(courseKey) {
     if (!data) return;
 
     modalOverlay.innerHTML = `
-        <div class="course-modal-content">
-            <button class="close-course-modal" onclick="closeCourseModal()">×</button>
-            <h3>${data.title}</h3>
-            <p>${data.desc}</p>
-            <ul>
-                ${data.points.map(point => `<li>${point}</li>`).join('')}
-            </ul>
+        <div class="custom-modal-content" id="active-course-modal">
+            <div class="custom-modal-header">
+                <h3>${data.title}</h3>
+                <button class="close-modal-btn" onclick="closeCourseModal()">×</button>
+            </div>
+            <div class="custom-modal-body">
+                <p>${data.desc}</p>
+                <ul>
+                    ${data.points.map((point, i) => `<li>${detailIcons[i % detailIcons.length]} <span>${point}</span></li>`).join('')}
+                </ul>
+            </div>
         </div>
     `;
     translateNode(modalOverlay, currentLang);
     modalOverlay.classList.add("active");
+    
+    if (typeof VanillaTilt !== 'undefined') {
+        VanillaTilt.init(document.querySelector("#active-course-modal"), {
+            max: 5,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.1
+        });
+    }
 };
 
 window.closeCourseModal = function() {

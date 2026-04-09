@@ -785,68 +785,88 @@ header.hidden {
     visibility: visible;
 }
 
-.course-modal-content {
+.custom-modal-content {
     background-color: var(--bg-card);
-    padding: 2.5rem;
-    border-radius: 16px;
+    border-radius: 15px;
     max-width: 500px;
     width: 90%;
     position: relative;
-    box-shadow: 0 25px 50px -12px var(--shadow-color);
-    animation: zoomInCourse 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    box-shadow: 0 0 25px rgba(139, 92, 246, 0.3);
+    animation: modalFadeScale 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    display: flex;
+    flex-direction: column;
+    transform-style: preserve-3d;
 }
 
-@keyframes zoomInCourse {
-    from { transform: scale(0.8); opacity: 0; }
+@keyframes modalFadeScale {
+    from { transform: scale(0.9); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
 }
 
-.close-course-modal {
+.custom-modal-header {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--primary);
+    transform: translateZ(20px);
+    position: relative;
+}
+
+.custom-modal-header h3 {
+    color: var(--primary);
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    padding-right: 30px;
+}
+
+.close-modal-btn {
     position: absolute;
-    top: 15px;
-    left: 15px;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
     background: none;
     border: none;
     color: var(--text-muted);
     font-size: 2rem;
     cursor: pointer;
     transition: color 0.3s;
+    line-height: 1;
+    padding: 0;
 }
 
-.close-course-modal:hover {
-    color: #ef4444;
+.close-modal-btn:hover {
+    color: var(--primary-hover);
 }
 
-.course-modal-content h3 {
-    color: var(--primary);
-    margin-bottom: 1rem;
-    font-size: 1.8rem;
+.custom-modal-body {
+    padding: 2rem;
+    line-height: 1.8;
+    transform: translateZ(30px);
 }
 
-.course-modal-content p {
+.custom-modal-body p {
     color: var(--text-sec);
     margin-bottom: 1.5rem;
+    font-size: 1.1rem;
 }
 
-.course-modal-content ul {
+.custom-modal-body ul {
     list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-.course-modal-content li {
-    position: relative;
-    padding-right: 30px;
-    margin-bottom: 12px;
+.custom-modal-body li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
     color: var(--text-main);
+    font-size: 1.05rem;
 }
 
-.course-modal-content li::before {
-    content: "✓";
-    position: absolute;
-    right: 0;
-    top: 0;
-    color: #10b981;
-    font-weight: bold;
-    font-size: 1.2rem;
+.custom-modal-body li svg {
+    color: var(--primary);
+    flex-shrink: 0;
 }
 
 .auth-container {
