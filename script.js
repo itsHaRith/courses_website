@@ -1,3 +1,9 @@
+const APP_VERSION = '1.0.1';
+if (localStorage.getItem('appVersion') !== APP_VERSION) {
+    localStorage.setItem('appVersion', APP_VERSION);
+    window.location.reload(true);
+}
+
 const arToEn = {
     "الرئيسية": "Home",
     "الكورسات": "Courses",
