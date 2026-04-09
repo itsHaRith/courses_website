@@ -25,6 +25,7 @@ const arToEn = {
     "تطوير الويب الشامل": "Full-Stack Web Development",
     "المسار المتكامل من الصفر حتى النشر السحابي لتصبح مطوراً قادراً على بناء أي نظام رقمي.": "The integrated path from scratch to cloud deployment to become a developer capable of building any digital system.",
     "عرض التفاصيل": "Details",
+    "التفاصيل": "Details",
     "اكتشف جميع الكورسات": "Discover All Courses",
     "كيف تعمل المنصة؟": "How does the platform work?",
     "اختر الكورس": "Choose a course",
@@ -323,7 +324,7 @@ function renderCourses() {
                     <div class="course-footer">
                         <span class="price gradient-text">$${course.price}</span>
                         <div style="display: flex; gap: 0.5rem;">
-                            <button class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.9rem;" onclick="openCourseModal(${course.id})">التفاصيل</button>
+                            <button class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.9rem;" onclick="openCourseModal(${course.id})">عرض التفاصيل</button>
                             <button class="btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;" onclick="addToCart(${course.id}, event)">إضافة</button>
                         </div>
                     </div>
