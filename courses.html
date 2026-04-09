@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة كورسات برمجة - الكورسات</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive.css">
+</head>
+<body>
+    <div class="scroll-progress" id="scroll-progress"></div>
+    <header>
+        <nav class="navbar">
+            <a href="index.html" class="logo">CodeCourses</a>
+            <ul class="nav-links">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="courses.html">الكورسات</a></li>
+                <li><a href="about.html">من نحن</a></li>
+            </ul>
+            <div class="auth-container">
+                <a href="login.html" class="auth-link">تسجيل الدخول</a>
+                <div class="cart-icon" id="cart-icon">
+                    🛒 <span class="cart-count">0</span>
+                </div>
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <div class="mobile-overlay" id="mobile-overlay"></div>
+    <aside class="mobile-sidebar" id="mobile-sidebar">
+        <button class="close-mobile-menu" id="close-mobile-menu">×</button>
+        <ul class="mobile-nav-links">
+            <li><a href="index.html">الرئيسية</a></li>
+            <li><a href="courses.html">الكورسات</a></li>
+            <li><a href="about.html">من نحن</a></li>
+            <li><a href="login.html" class="auth-link">تسجيل الدخول</a></li>
+        </ul>
+    </aside>
+
+    <section class="courses-section">
+        <div class="courses-header fade-in-section">
+            <h1>تصفح الكورسات</h1>
+            <div class="courses-controls">
+                <div class="search-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="search-input" placeholder="ابحث عن كورس (مثال: React, Python)...">
+                </div>
+                <div class="filter-tabs" id="filter-tabs">
+                    <button class="filter-btn active" data-filter="all">الكل</button>
+                    <button class="filter-btn" data-filter="Frontend">Frontend</button>
+                    <button class="filter-btn" data-filter="Backend">Backend</button>
+                    <button class="filter-btn" data-filter="Full-Stack">Full-Stack</button>
+                </div>
+            </div>
+        </div>
+        <div id="courses-container" class="courses-grid wow-grid"></div>
+    </section>
+
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h2>سلة المشتريات</h2>
+            <button class="close-cart" id="close-cart">×</button>
+        </div>
+        <div class="cart-items" id="cart-items"></div>
+        <div class="cart-footer">
+            <p>المجموع: <span id="cart-total">0</span>$</p>
+            <button class="btn checkout-btn">إتمام الطلب</button>
+        </div>
+    </div>
+
+    <div class="floating-controls">
+        <button class="control-btn" id="lang-toggle">EN</button>
+        <button class="control-btn" id="theme-toggle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+        <button class="control-btn back-to-top" id="back-to-top">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+        </button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
